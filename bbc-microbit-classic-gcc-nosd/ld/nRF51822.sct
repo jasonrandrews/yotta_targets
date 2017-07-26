@@ -1,0 +1,25 @@
+LR_IROM1 0x00000000 
+{
+    VECTORS  0x0 0xC0
+    {
+        * (.Vectors, +FIRST)
+    }
+    CODE +0 0x40000-0xC0
+    {
+        * (+RO)
+    }
+
+    RW_IRAM1 0x20000000 0x00001000  
+    {
+        * (+RW +ZI)
+    }
+
+    ARM_LIB_HEAP 0x20001000 EMPTY 0x1e00
+    {
+    }
+
+    ARM_LIB_STACK 0x20004000 EMPTY -0x1200
+    {
+    }
+
+}
