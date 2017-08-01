@@ -29,7 +29,7 @@ add_definitions("-DTOOLCHAIN_GCC -DTOOLCHAIN_GCC_ARM -DMBED_OPERATORS")
 # find the compiler and associated tools that we need:
 find_program(ARM_NONE_EABI_GCC armclang)
 find_program(ARM_NONE_EABI_GPP armclang)
-find_program(ARM_NONE_EABI_OBJCOPY arm-none-eabi-objcopy)
+find_program(ARM_NONE_EABI_OBJCOPY fromelf)
 macro(gcc_program_notfound progname)
     message("**************************************************************************\n")
     message(" ERROR: the arm gcc program ${progname} could not be found\n")
@@ -54,17 +54,17 @@ if(NOT ARM_NONE_EABI_GPP)
     gcc_program_notfound("armclang")
 endif()
 if(NOT ARM_NONE_EABI_OBJCOPY)
-    gcc_program_notfound("arm-none-eabi-objcopy")
+    gcc_program_notfound("fromelf")
 endif()
 
 
 # post-process elf files into .bin files (legacy backwards-compatible command):
-set(YOTTA_POSTPROCESS_COMMAND "\"${ARM_NONE_EABI_OBJCOPY}\" -O binary YOTTA_CURRENT_EXE_NAME YOTTA_CURRENT_EXE_NAME.bin")
+#set(YOTTA_POSTPROCESS_COMMAND "\"${ARM_NONE_EABI_OBJCOPY}\" -O binary YOTTA_CURRENT_EXE_NAME YOTTA_CURRENT_EXE_NAME.bin")
 
 
 # set default compilation flags
 set(_C_FAMILY_FLAGS_INIT "-fno-exceptions -fno-unwind-tables -ffunction-sections -fdata-sections -Wall -Wextra")
-set(CMAKE_C_FLAGS_INIT   "-std=c99 ${_C_FAMILY_FLAGS_INIT}")
+set(CMAKE_C_FLAGS_INIT   "${_C_FAMILY_FLAGS_INIT}")
 set(CMAKE_ASM_FLAGS_INIT "-fno-exceptions -fno-unwind-tables -x assembler-with-cpp")
 set(CMAKE_CXX_FLAGS_INIT "${_C_FAMILY_FLAGS_INIT} -fno-rtti -fno-threadsafe-statics")
 set(CMAKE_MODULE_LINKER_FLAGS_INIT
