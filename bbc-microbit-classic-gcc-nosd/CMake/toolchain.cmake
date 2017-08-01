@@ -32,8 +32,9 @@ function(yotta_apply_target_rules target_type target_name)
         add_custom_command(TARGET ${target_name}
             POST_BUILD
             # objcopy to hex
-            COMMAND arm-none-eabi-objcopy -O ihex ${target_name} ${target_name}.hex
-            COMMAND srec_cat ${target_name}.hex -intel -o ${target_name}.hex -intel --line-length=44
+            #COMMAND arm-none-eabi-objcopy -O ihex ${target_name} ${target_name}.hex
+            #COMMAND srec_cat ${target_name}.hex -intel -o ${target_name}.hex -intel --line-length=44
+            COMMAND fromelf --i32 --output ${target_name}.hex ${target_name}
             # and append the softdevice hex file
             COMMENT "hexifying ${target_name}"
             VERBATIM
